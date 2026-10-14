@@ -1,0 +1,31 @@
+
+name: Build CHAVSV Account Manager
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Instalar Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Verificar Cargo
+        shell: pwsh
+        run: cargo --version
+
+      - name: Compilar programa
+        shell: pwsh
+        run: ./build-chavsv.ps1
+
+      - name: Salvar executavel
+        uses: actions/upload-artifact@v4
+        with:
+          name: CHAVSV-Account-Manager
+          path: '**/*.exe'
+          if-no-files-found: error
